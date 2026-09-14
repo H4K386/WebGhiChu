@@ -1,0 +1,24 @@
+{
+  "name": "webtintuc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/H4K386/WebTinTuc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/H4K386/WebTinTuc/issues"
+  },
+  "homepage": "https://github.com/H4K386/WebTinTuc#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
