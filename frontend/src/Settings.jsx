@@ -9,7 +9,7 @@ function Settings(){
             document.body.style.backgroundColor = data.theme === "dark" ? '#333' : '#fff';
             document.body.style.color = data.theme === 'dark' ? '#fff' : '#000';
         });
-    },[]); 
+    },[]);
     const handleChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
     };
@@ -21,7 +21,7 @@ function Settings(){
         })
         .then(res => res.json())
         .then(data => {
-            alert(data.message);
+            alert("Lưu thành công!");
             document.body.style.backgroundColor = profile.theme === 'dark' ? '#333' : '#fff';
             document.body.style.color = profile.theme === 'dark' ? '#fff' : '#000';
         });
