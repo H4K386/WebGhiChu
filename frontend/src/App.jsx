@@ -5,6 +5,7 @@ import viteLogo from './assets/vite.svg'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Settings from './Settings';
+import Notes from './Notes';
 import './App.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <div style={{ flex: 1, padding: '20px' }}>
           <Routes>
             <Route path="/" element={<h2>Trang chủ (Danh sách ghi chú)</h2>} />
+            <Route path="/Notes" element={<Notes />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/private" element={<h2>Khu vực Bảo mật</h2>} />
           </Routes>
