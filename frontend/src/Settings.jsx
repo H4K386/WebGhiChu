@@ -30,7 +30,7 @@ function Settings(){
         <div style={{ padding: '20px'}}>
             <h2>Cài đặt hệ thống</h2>
             <div>
-                <label>Tên hiển thị</label>
+                <label>Tên hiển thị: </label>
                 <input name="displayName" value={profile.displayName} onChange={handleChange}/>
             </div>
             <div style={{ marginTop: '10px' }}>
