@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Settings from './Settings';
 import Notes from './Notes';
+import PrivateNotes from './PrivateNotes';
 import './App.css'
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
             <Route path="/" element={<h2>Trang chủ (Danh sách ghi chú)</h2>} />
             <Route path="/Notes" element={<Notes />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/private" element={<h2>Khu vực Bảo mật</h2>} />
+            <Route path="/private" element={<PrivateNotes/>} />
           </Routes>
         </div>
       </div>
