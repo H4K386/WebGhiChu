@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "displayName": "N  ga  ads ư ads ",
   "theme": "light",
+=======
+  "displayName": "ABC",
+  "theme": "dark",
+>>>>>>> e4a92bb80bbf728406b23c37e70e2e281a1551db
   "password": "123"
 }
