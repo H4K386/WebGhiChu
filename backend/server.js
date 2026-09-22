@@ -174,7 +174,6 @@ app.delete("/api/notes/private/:topic/:id", (req, res) => {
     res.status(500).json({ message: "Lỗi xóa ghi chú" });
   }
 });
-console.log("Da push len thanh cong");
 const PORT = 5000;
 app.listen(PORT, () =>
   console.log(`Backend chạy tại http://localhost:${PORT}`),
