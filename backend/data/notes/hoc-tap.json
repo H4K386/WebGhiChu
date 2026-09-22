@@ -1,0 +1,16 @@
+[
+  {
+    "id": "note-1789981001",
+    "title": "Ôn thi cuối kỳ môn Lập trình Web",
+    "content": "- Xem lại React Context API\n- Ôn tập cách đọc/ghi file bằng fs trong Node.js\n- Thực hành lại luồng gọi API từ Frontend",
+    "createdAt": "2026-09-21T10:00:00.000Z",
+    "updatedAt": "2026-09-21T10:00:00.000Z"
+  },
+  {
+    "id": "note-1789981002",
+    "title": "Tiến độ Đồ án Ghi chú",
+    "content": "- Đã hoàn thành cấu hình thư mục lưu trữ data\n- Đang chuẩn bị làm API cho Sprint 3",
+    "createdAt": "2026-09-21T14:30:00.000Z",
+    "updatedAt": "2026-09-21T14:30:00.000Z"
+  }
+]
