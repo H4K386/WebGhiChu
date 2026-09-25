@@ -36,6 +36,14 @@ function PrivateNotes() {
             setFormData({ id: null, title: '', content: '' });
         });
     };
+      
+    const handleDelete = (id) => {
+        if(window.confirm('Bạn có chắc muốn xóa ghi chú này?')) {
+            fetch(`http://localhost:5000/api/notes/private/${topic}/${id}`, { method: 'DELETE' })
+            .then(() => fetchNotes());
+        }
+    };
+    const handleEdit = (note) => setFormData({ id: note.id, title: note.title, content:note.content });
     if (!isUnlocked) {
         return (
             <div style={{ padding: '50px', textAlign: 'center' }}>
@@ -72,6 +80,10 @@ function PrivateNotes() {
                     <div key={note.id} style={{ border: '1px solid red', padding: '15px' }}>
                         <h4>{note.title}</h4>
                         <p>{note.content}</p>
+                        <div style={{ marginTop: '10px' }}>
+                            <button onClick={() => handleEdit(note)} style={{ marginRight: '10px'}}>Sửa</button>
+                            <button onClick={() => handleDelete(note.id)} style={{ color: 'red'}}>Xóa</button>
+                        </div>
                     </div>
                 ))}
             </div>
