@@ -145,8 +145,7 @@ app.post("/api/private/notes", (req, res) => {
   }
 });
 
-app.put("/api/notes/private/:topic/:id", (req, res) => {
-  const filePath = getFilePath(req.params.topic);
+app.put("/api/private/notes/:id", (req, res) => {
   try {
     let notes = JSON.parse(fs.readFileSync(privateNotesFile, "utf8"));
     const index = notes.findIndex((n) => n.id === req.params.id);
@@ -167,8 +166,7 @@ app.put("/api/notes/private/:topic/:id", (req, res) => {
   }
 });
 
-app.delete("/api/notes/private/:topic/:id", (req, res) => {
-  const filePath = getFilePath(req.params.topic);
+app.delete("/api/private/notes/:id", (req, res) => {
   try {
     let notes = JSON.parse(fs.readFileSync(privateNotesFile, "utf8"));
     const newNotes = notes.filter((n) => n.id !== req.params.id);

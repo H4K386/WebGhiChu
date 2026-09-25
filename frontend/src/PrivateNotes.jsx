@@ -26,16 +26,28 @@ function PrivateNotes() {
             .then(res => res.json())
             .then(data => setNotes(data));
     };
-    const handleSave = () => {
-        fetch('http://localhost:5000/api/private/notes', {
-            method: 'POST',
+ const handleSave = () => {
+        const method = formData.id ? 'PUT' : 'POST';
+        const url = formData.id ? `http://localhost:5000/api/private/notes/${formData.id}` : `http://localhost:5000/api/private/notes`;
+        fetch(url, {
+            method: method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ title: formData.title, content: formData.content })
-        }).then(() => {
+        })
+        .then(res => res.json())
+        .then(() => {
             fetchPrivateNotes();
             setFormData({ id: null, title: '', content: '' });
         });
+    }; 
+      
+    const handleDelete = (id) => {
+        if(window.confirm('Bạn có chắc muốn xóa ghi chú này?')) {
+            fetch(`http://localhost:5000/api/private/notes/${id}`, { method: 'DELETE' })
+            .then(() => fetchPrivateNotes());
+        }
     };
+    const handleEdit = (note) => setFormData({ id: note.id, title: note.title, content:note.content });
     if (!isUnlocked) {
         return (
             <div style={{ padding: '50px', textAlign: 'center' }}>
@@ -65,13 +77,20 @@ function PrivateNotes() {
                     onChange={e => setFormData({...formData, content: e.target.value})}
                     style={{ display: 'block', width: '100%', height: '80px', marginBottom: '10px' }}
                 />
-                <button onClick={handleSave} style={{ backgroundColor: 'red', color: 'white'}}>Lưu bí mật</button>
+                <button onClick={handleSave}>{formData.id ? 'Cập nhật' : 'Lưu bí mật'}</button>
+                {formData.id && (
+                    <button onClick={() => setFormData({ id: null, title: '', content: '' })} style={{marginLeft: '10px'}}>Hủy</button>
+                )}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                 {notes.map(note => (
                     <div key={note.id} style={{ border: '1px solid red', padding: '15px' }}>
                         <h4>{note.title}</h4>
                         <p>{note.content}</p>
+                        <div style={{ marginTop: '10px' }}>
+                            <button onClick={() => handleEdit(note)} style={{ marginRight: '10px'}}>Sửa</button>
+                            <button onClick={() => handleDelete(note.id)} style={{ color: 'red'}}>Xóa</button>
+                        </div>
                     </div>
                 ))}
             </div>
