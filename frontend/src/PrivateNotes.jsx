@@ -76,7 +76,6 @@ function PrivateNotes() {
                 <button onClick={handleSave} style={{ backgroundColor: 'red', color: 'white'}}>Lưu bí mật</button>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                <input text ="text">Nhập tên ghi chú</input>
                 {notes.map(note => (
                     <div key={note.id} style={{ border: '1px solid red', padding: '15px' }}>
                         <h4>{note.title}</h4>
