@@ -1,14 +1,36 @@
 import React, {useState, useEffect} from "react";
+import { useLocation } from 'react-router-dom';
 function Notes(){
     const [topic, setTopic] = useState('hoc-tap');
     const [notes, setNotes] = useState([]);
     const [formData, setFormData] = useState({ id: null, title: '', content: '' });
+    const location = useLocation();
+
     const fetchNotes = () => {
         fetch(`http://localhost:5000/api/notes/${topic}`)
         .then(res => res.json())
         .then(data => setNotes(data));
     };
+
     useEffect(() => { fetchNotes(); }, [topic]);
+
+    // Tự động nhận dữ liệu ghi chú khi chuyển hướng từ trang khác sang
+    useEffect(() => {
+        if (location.state && location.state.editNote) {
+            const { editNote, topic: noteTopic } = location.state;
+            
+            // Chuyển sang đúng chủ đề của ghi chú (nếu có)
+            if (noteTopic) setTopic(noteTopic);
+            
+            // Tự động nạp dữ liệu vào form để người dùng sửa
+            setFormData({
+                id: editNote.id,
+                title: editNote.title,
+                content: editNote.content
+            });
+        }
+    }, [location.state]);
+
     const handleSave = () => {
         const method = formData.id ? 'PUT' : 'POST';
         const url = formData.id ? `http://localhost:5000/api/notes/${topic}/${formData.id}` : `http://localhost:5000/api/notes/${topic}`;
@@ -22,14 +44,17 @@ function Notes(){
             fetchNotes();
             setFormData({ id: null, title: '', content: '' });
         });
-    };   
+    };
+
     const handleDelete = (id) => {
         if(window.confirm('Bạn có chắc muốn xóa ghi chú này?')) {
             fetch(`http://localhost:5000/api/notes/${topic}/${id}`, { method: 'DELETE' })
             .then(() => fetchNotes());
         }
-    }; 
+    };
+
     const handleEdit = (note) => setFormData({ id: note.id, title: note.title, content:note.content });
+
     return(
         <div style={{ padding: '20px' }}>
             <h2>Ghi chú Công khai</h2>

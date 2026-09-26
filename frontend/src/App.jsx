@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import Settings from './Settings';
 import Notes from './Notes';
 import PrivateNotes from './PrivateNotes';
+import ListNotes from './ListNotes';
 import './App.css'
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <Sidebar />
         <div style={{ flex: 1, padding: '20px' }}>
           <Routes>
-            <Route path="/" element={<h2>Trang chủ (Danh sách ghi chú)</h2>} />
+            <Route path="/" element={<ListNotes />} />
             <Route path="/Notes" element={<Notes />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/private" element={<PrivateNotes/>} />

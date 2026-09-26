@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1790408140753",
+    "title": "Công việc 1",
+    "content": "Làm bài tập\nĐưa báo cáo\nRèn luyện",
+    "createdAt": "2026-09-26T07:35:40.753Z",
+    "updatedAt": "2026-09-26T07:35:40.753Z"
+  },
+  {
+    "id": "1790408170520",
+    "title": "Công việc 2",
+    "content": "Làm bài tập\nĐưa báo cáo\nRèn luyện",
+    "createdAt": "2026-09-26T07:36:10.520Z",
+    "updatedAt": "2026-09-26T07:36:10.520Z"
+  },
+  {
+    "id": "1790408200318",
+    "title": "Công việc 3",
+    "content": "Làm nhiệm vụ\nLàm BT lý thuyết",
+    "createdAt": "2026-09-26T07:36:40.318Z",
+    "updatedAt": "2026-09-26T07:36:40.318Z"
+  }
+]

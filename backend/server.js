@@ -174,6 +174,38 @@ app.delete("/api/notes/private/:topic/:id", (req, res) => {
     res.status(500).json({ message: "Lỗi xóa ghi chú" });
   }
 });
+
+// Phần mới cập nhật
+
+// API Lấy toàn bộ ghi chú từ tất cả chủ đề (Phục vụ Search / Filter)
+app.get('/api/notes-all', (req, res) => {
+  try {
+    if (!fs.existsSync(notesDir)) return res.json([]);
+
+    const files = fs.readdirSync(notesDir); // Đọc tất cả file trong data/notes
+    let allNotes = [];
+
+    files.forEach(file => {
+      if (file.endsWith('.json')) {
+        const topic = file.replace('.json', '');
+        const filePath = path.join(notesDir, file);
+        
+        // Đọc dữ liệu từ từng file json
+        const data = fs.readFileSync(filePath, 'utf8');
+        const notes = JSON.parse(data || '[]');
+
+        // Gắn thuộc tính topic vào từng ghi chú để FE biết ghi chú thuộc chủ đề nào
+        const notesWithTopic = notes.map(note => ({ ...note, topic }));
+        allNotes = allNotes.concat(notesWithTopic);
+      }
+    });
+
+    res.json(allNotes);
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi lấy danh sách ghi chú tổng hợp" });
+  }
+});
+
 console.log("Da doi port thanh 5001");
 const PORT = 5000;
 app.listen(PORT, () =>
