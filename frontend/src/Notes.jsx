@@ -3,8 +3,17 @@ import { useLocation } from 'react-router-dom';
 function Notes(){
     const [topic, setTopic] = useState('hoc-tap');
     const [notes, setNotes] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [formData, setFormData] = useState({ id: null, title: '', content: '' });
     const location = useLocation();
+
+    const filteredNotes = notes
+    .filter(note => {
+        const keyword = searchTerm.toLowerCase();
+        const matchTitle = (note.title || '').toLowerCase().includes(keyword);
+        const matchContent = (note.content || '').toLowerCase().includes(keyword);
+        return matchTitle || matchContent;
+    })
 
     const fetchNotes = () => {
         fetch(`http://localhost:5000/api/notes/${topic}`)
@@ -14,14 +23,28 @@ function Notes(){
 
     useEffect(() => { fetchNotes(); }, [topic]);
 
+    useEffect(() => {
+        if (location.state && location.state.editNote) {
+            const { editNote, topic: noteTopic } = location.state;
+
+            if (noteTopic) setTopic(noteTopic);
+
+            setFormData({
+                id: editNote.id,
+                title: editNote.title,
+                content: editNote.content
+            });
+        }
+    }, [location.state]);
+
     // Tự động nhận dữ liệu ghi chú khi chuyển hướng từ trang khác sang
     useEffect(() => {
         if (location.state && location.state.editNote) {
             const { editNote, topic: noteTopic } = location.state;
-            
+
             // Chuyển sang đúng chủ đề của ghi chú (nếu có)
             if (noteTopic) setTopic(noteTopic);
-            
+
             // Tự động nạp dữ liệu vào form để người dùng sửa
             setFormData({
                 id: editNote.id,
@@ -83,9 +106,16 @@ function Notes(){
                     <button onClick={() => setFormData({ id: null, title: '', content: '' })} style={{marginLeft: '10px'}}>Hủy</button>
                 )}
             </div>
+
+            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
+                <span style={{ marginRight: '10px' }}>Tìm kiếm: </span>
+                {/* Khung tìm kiếm tự đông tìm khi nhập 1 ký tự */}
+                <input type="text" placeholder="Tìm kiếm..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                {notes.length === 0 && <p>Chưa có ghi chú nào.</p>}
-                {notes.map(note => (
+                {filteredNotes.length === 0 && <p>Chưa có ghi chú nào.</p>}
+                {filteredNotes.map(note => (
                     <div key={note.id} style={{ border: '1px solid #007bff', padding: '15px', borderRadius: '5px' }}>
                         <h4 style={{ margin: '0 0 10px 0' }}>{note.title}</h4>
                         <p style={{ whiteSpace: 'pre-wrap' }}>{note.content}</p>

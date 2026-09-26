@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 function PrivateNotes() {
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [passwordInput, setPasswordInput] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [notes, setNotes] = useState([]);
     const [formData, setFormData] = useState({ id: null, title: '', content: '' });
+    const location = useLocation();
+
     const handleLogin = () => {
         fetch('http://localhost:5000/api/private/auth', {
             method: 'POST',
@@ -21,11 +25,21 @@ function PrivateNotes() {
             }
         });
     };
+
+    const filteredNotes = notes
+    .filter(note => {
+        const keyword = searchTerm.toLowerCase();
+        const matchTitle = (note.title || '').toLowerCase().includes(keyword);
+        const matchContent = (note.content || '').toLowerCase().includes(keyword);
+        return matchTitle || matchContent;
+    })
+
     const fetchPrivateNotes = () => {
         fetch('http://localhost:5000/api/private/notes')
             .then(res => res.json())
             .then(data => setNotes(data));
     };
+
     const handleSave = () => {
         fetch('http://localhost:5000/api/private/notes', {
             method: 'POST',
@@ -43,7 +57,23 @@ function PrivateNotes() {
             .then(() => fetchNotes());
         }
     };
+
     const handleEdit = (note) => setFormData({ id: note.id, title: note.title, content:note.content });
+
+    useEffect(() => {
+            if (location.state && location.state.editNote) {
+                const { editNote, topic: noteTopic } = location.state;
+    
+                if (noteTopic) setTopic(noteTopic);
+    
+                setFormData({
+                    id: editNote.id,
+                    title: editNote.title,
+                    content: editNote.content
+                });
+            }
+        }, [location.state]);
+
     if (!isUnlocked) {
         return (
             <div style={{ padding: '50px', textAlign: 'center' }}>
@@ -75,8 +105,15 @@ function PrivateNotes() {
                 />
                 <button onClick={handleSave} style={{ backgroundColor: 'red', color: 'white'}}>Lưu bí mật</button>
             </div>
+
+            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center' }}>
+                <span style={{ marginRight: '10px' }}>Tìm kiếm: </span>
+                {/* Khung tìm kiếm tự đông tìm khi nhập 1 ký tự */}
+                <input type="text" placeholder="Tìm kiếm..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+            </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                <input text ="text">Nhập tên ghi chú</input>
+                
                 {notes.map(note => (
                     <div key={note.id} style={{ border: '1px solid red', padding: '15px' }}>
                         <h4>{note.title}</h4>
